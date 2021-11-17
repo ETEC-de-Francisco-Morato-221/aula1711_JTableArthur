@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pct;
+package model.teste;
+
+import model.design.Produto;
+import model.design.Perecivel;
 
 /**
  *
