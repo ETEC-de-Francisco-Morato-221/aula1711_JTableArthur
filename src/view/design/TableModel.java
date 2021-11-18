@@ -68,5 +68,15 @@ public class TableModel extends AbstractTableModel {
     }
     
     
+    public void addRow(Produto p){
+        this.produto.add(p);
+        this.fireTableDataChanged();
+    } 
+       
+    public void removeRow(int rowIndex){
+        this.produto.remove(rowIndex);
+        this.fireTableRowsDeleted(rowIndex, rowIndex);
+    }
+    
     
 }
