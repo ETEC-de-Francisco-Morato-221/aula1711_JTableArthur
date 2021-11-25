@@ -5,6 +5,8 @@
  */
 package view.gui;
 
+import javax.swing.JOptionPane;
+import model.design.Produto;
 import view.design.TableModel;
 
 /**
@@ -68,12 +70,32 @@ public class ProdutoGui extends javax.swing.JFrame {
         lblPreco.setText("Preço");
 
         btnGravar.setText("Gravar");
+        btnGravar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGravarActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         tblProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,6 +108,11 @@ public class ProdutoGui extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProdutoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProduto);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -174,8 +201,84 @@ public class ProdutoGui extends javax.swing.JFrame {
 
     private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
         // TODO add your handling code here:
+        
+
+        
     }//GEN-LAST:event_txtQuantidadeActionPerformed
 
+    private void btnGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGravarActionPerformed
+        // TODO add your handling code here:
+                try {           
+            modelo.addRow(new Produto(
+                    Integer.parseInt(txtCodigo.getText()),
+                    txtDescricao.getText(),
+                    Integer.parseInt(txtQuantidade.getText()),
+                    Double.parseDouble(txtPreco.getText())
+        ));
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "Erro " + e.getMessage(),"Ops!",JOptionPane.ERROR_MESSAGE);
+            
+        }
+        this.btnLimparActionPerformed(evt);
+    }//GEN-LAST:event_btnGravarActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        // TODO add your handling code here:
+        txtCodigo.setText(null);
+        txtDescricao.setText(null);
+        txtPreco.setText(null);
+        txtQuantidade.setText(null);
+        txtCodigo.requestFocus();
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        // TODO add your handling code here:
+        int linha = tblProduto.getSelectedRow();
+        
+        try {
+            
+        if (linha != -1){
+            
+            modelo.setValueAt(txtCodigo.getText(), linha, 0);
+            modelo.setValueAt(txtDescricao.getText(), linha, 1);
+            modelo.setValueAt(txtQuantidade.getText(), linha, 2);
+            modelo.setValueAt(txtPreco.getText(), linha, 3);
+            
+        }
+        } catch(NumberFormatException e){
+            
+            JOptionPane.showMessageDialog
+            (this, "RAPAAAAAAAAAZ " + e.getMessage()
+            ,"Ops!",JOptionPane.ERROR_MESSAGE);
+        }
+        this.btnLimparActionPerformed(evt);
+        
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void tblProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdutoMouseClicked
+        // TODO add your handling code here:
+        int linha = tblProduto.getSelectedRow();
+        
+        if (linha != -1) {
+            txtCodigo.setText(String.valueOf(modelo.getValueAt(linha, 0)));
+            txtDescricao.setText((String)modelo.getValueAt(linha, 1));
+            txtQuantidade.setText(String.valueOf(modelo.getValueAt(linha, 2)));
+            txtPreco.setText(String.valueOf(modelo.getValueAt(linha, 3)));
+            
+        }
+    }//GEN-LAST:event_tblProdutoMouseClicked
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+        int linha = tblProduto.getSelectedRow();
+        
+        if(linha != -1){
+            modelo.removeRow(linha);
+        }
+        this.btnLimparActionPerformed(evt);
+    }//GEN-LAST:event_btnExcluirActionPerformed
+  
+    
     /**
      * @param args the command line arguments
      */
